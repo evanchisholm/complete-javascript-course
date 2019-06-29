@@ -24,27 +24,24 @@ document.querySelector('.btn-roll').addEventListener('click', function () {
         diceDOM.src = 'dice-' + dice + '.png';
 
         // 3. Update the round score IF the rolled number was NOT 1
-        if (dice !== 1) {
+        // If this dice and the last dice were 6
+        if (dice === 6 && lastDice === 6) {
+            // reset the players total score to zero
+            scores[activePlayer] = 0;
+            // Update the UI total score to zero
+            document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
+            // Next player
+            nextPlayer();
+        } else if (dice !== 1) {
             // Add score
             roundScore += dice;
             document.querySelector('#current-' + activePlayer).textContent = roundScore;
-
-            // If this dice and the last dice were 6
-            if (dice === 6 && lastDice === 6) {
-                // reset the players total score to zero
-                scores[activePlayer] = 0;
-                // Update the UI
-                document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
-                // Next player
-                nextPlayer();
-            } else {
-                // set lastDice value
-                lastDice = dice;
-            }
         } else {
             // Next player
             nextPlayer();
         }
+
+        lastDice = dice;
     }
 });
 
