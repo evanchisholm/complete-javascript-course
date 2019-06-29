@@ -217,6 +217,7 @@ retirementIceland(1990);
     }
 }*/
 
+/*
 function interviewQuestion(job) {
     return function (name) {
         if (job === 'designer') {
@@ -238,6 +239,116 @@ var interviewFireman = interviewQuestion('fireman');
 interviewTeacher('Evan');
 interviewDesigner('Mark');
 interviewFireman('Brad');
+*/
+
+// Bind, call and apply
+
+
+/*var john = {
+    name: 'John',
+    age: 26,
+    job: 'teacher',
+    presentation: function (style, timeOfDay) {
+        if (style === 'formal') {
+            console.log('Good ' + timeOfDay + ', ladies and gentlemen. I\'m '
+                + this.name + ', I\'m a ' + this.job
+                + ' and I\'m ' + this.age + ' years old.');
+        } else if (style === 'friendly') {
+            console.log('Hi, I\'m '
+                + this.name + ', I\'m a ' + this.job
+                + ' and I\'m ' + this.age + ' years old. Have a nice ' + timeOfDay);
+        }
+    }
+};
+
+var emily = {
+    name: 'Emily',
+    age: 35,
+    job: 'designer'
+};
+
+john.presentation('formal', 'morning');
+
+john.presentation.call(emily, 'friendly', 'afternoon');
+
+var johnFriendly = john.presentation.bind(john, 'friendly');
+
+johnFriendly('morning');
+johnFriendly('evening');
+
+var emilyFormal = john.presentation.bind(emily, 'formal');
+emilyFormal('morning');*/
+
+// Challenge 7
+
+// wrap it in a IIFE so it does not conflict with other code
+(function () {
+    function Question(question, answers, correctAnswer) {
+        this.question = question;
+        this.answers = answers;
+        this.correctAnswer = correctAnswer;
+    }
+
+    Question.prototype.displayQuestion = function() {
+        console.log(this.question);
+        for (var i = 0; i < this.answers.length; i++) {
+            console.log(i + ': ' + this.answers[i]);
+        }
+    };
+
+    Question.prototype.checkAnswer = function (ans, callback) {
+        var sc;
+        if (ans === this.correctAnswer) {
+            console.log('Correct answer!');
+            sc = callback(true);
+        } else {
+            console.log('Wrong, try again.');
+            sc = callback(false);
+        }
+        this.displayScore(sc);
+    };
+
+    Question.prototype.displayScore = function (score) {
+        console.log('Your current score:' + score);
+        console.log('---------------------------');
+    };
+
+    var q1 = new Question('Is there a god?', ['Yes', 'No'], 1);
+    var q2 = new Question('Is JavaScript Java?', ['Yes', 'No'], 1);
+    var q3 = new Question('Is Trump a tit?', ['Yes', 'No'], 0);
+
+    var questions = [q1,q2,q3];
+
+    function score() {
+        var sc = 0;
+        return function (correct) {
+            if (correct) {
+                sc++;
+            }
+            return sc;
+        }
+    }
+
+    var keepScore = score();
+
+    function nextQuestion() {
+        var n = Math.floor(Math.random() * questions.length);
+
+        questions[n].displayQuestion();
+        var answer = prompt(questions[n].question);
+
+        if(answer !== 'exit') {
+            questions[n].checkAnswer(parseInt(answer), keepScore);
+            nextQuestion();
+        }
+    }
+
+    nextQuestion();
+})();
+
+
+
+
 
 
 
